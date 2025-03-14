@@ -1,0 +1,11 @@
+1. 크롬 확장 프로그램으로 "방문 기록" 수집
+= 여기서 가져오는 기간이 어느정도냐에 따라, 최근 분석일지 평생 분석일지가 나뉠듯(상황마다 조율)
+
+2. Flask 서버에서 분석
+	1) preprocess_data.py = 방문 기록 마다 의미있는 키워드로 변형해서 문자 배열로 저장
+	
+	2) analyze_data.py = 모든 키워드를 모아서 유사 그룹화(AI 사용) 후 (avg_similarity * total_frequency) / len(keywords)순 정렬
+
+
+
+
