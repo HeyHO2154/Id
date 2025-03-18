@@ -9,19 +9,7 @@ import os
 
 class TitlePreprocessor:
     def __init__(self):
-        try:
-            # MeCab 설치 경로 확인
-            if not os.path.exists('C:/mecab/bin/mecab.exe'):
-                raise Exception("MeCab이 C:/mecab에 설치되어 있지 않습니다.")
-            
-            # 환경 변수에 MeCab 경로 추가
-            os.environ['PATH'] = 'C:/mecab/bin' + os.pathsep + os.environ.get('PATH', '')
-            
-            self.mecab = Mecab()
-        except Exception as e:
-            print(f"Mecab 초기화 오류: {e}")
-            print(f"현재 작업 디렉토리: {os.getcwd()}")
-            raise
+        pass  # Mecab 관련 코드 제거
 
     def clean_title(self, title):
         """기본적인 텍스트 클리닝"""
@@ -89,7 +77,6 @@ class TitlePreprocessor:
 
     def process_history_data(self, history_data):
         """전체 방문 기록 데이터 처리"""
-        all_keywords = []
         processed_data = []
         
         for item in history_data:
@@ -97,11 +84,13 @@ class TitlePreprocessor:
             if not title:
                 continue
                 
-            keywords = self.extract_keywords(title)
+            cleaned_title = self.clean_title(title)
+            # 단순히 공백으로 단어 분리
+            keywords = cleaned_title.split()
             
             processed_item = {
-                'original_title': title,
-                'keywords': keywords,
+                'title': cleaned_title,
+                'keywords': keywords,  # 여기서 keywords를 추가
                 'url': item.get('url', ''),
                 'visitCount': item.get('visitCount', 0),
                 'lastVisitTime': item.get('lastVisitTime', 0),
@@ -109,24 +98,15 @@ class TitlePreprocessor:
             }
             
             processed_data.append(processed_item)
-            all_keywords.extend(keywords)
-        
-        # 전체 키워드 빈도수 계산
-        keyword_freq = Counter(all_keywords)
-        
+
         result = {
-            'processed_items': processed_data,
-            'keyword_statistics': {
-                'total_keywords': len(all_keywords),
-                'unique_keywords': len(keyword_freq),
-                'keyword_frequency': dict(keyword_freq)  # Counter를 일반 dict로 변환
-            }
+            'processed_items': processed_data
         }
 
-        # 결과를 파일로 저장
+        # 전처리 결과 저장
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filepath = f'C:\\Users\\PRO\\Downloads\\processed_data_{timestamp}.json'
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
-        
+
         return result 

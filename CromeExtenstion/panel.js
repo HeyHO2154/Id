@@ -1,3 +1,17 @@
+// saveToFile 함수 추가
+async function saveToFile(filename, content) {
+  const blob = new Blob([content], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  
+  await chrome.downloads.download({
+    url: url,
+    filename: filename,
+    saveAs: false
+  });
+  
+  URL.revokeObjectURL(url);
+}
+
 document.getElementById('analyze').addEventListener('click', async () => {
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = '<p class="loading">방문 기록 수집 중...</p>';
@@ -32,6 +46,11 @@ document.getElementById('analyze').addEventListener('click', async () => {
           }))
         };
       }));
+
+    // 방문 기록 JSON 저장
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '').slice(0, 15);
+    const historyJson = JSON.stringify(processedHistory, null, 2);
+    await saveToFile(`history_data_${timestamp}.json`, historyJson);
 
     // 서버로 전송
     const response = await fetch('http://localhost:3000/analyze', {
