@@ -10,24 +10,16 @@ import os
 class TitlePreprocessor:
     def __init__(self):
         try:
-            # 상대 경로로 mecab 경로 설정
-            mecab_dic_dir = './mecab/dic/mecab-ko-dic'
+            # MeCab 설치 경로 확인
+            if not os.path.exists('C:/mecab/bin/mecab.exe'):
+                raise Exception("MeCab이 C:/mecab에 설치되어 있지 않습니다.")
             
-            # mecabrc 파일 수정
-            with open('./mecab/dic/mecabrc', 'w', encoding='utf-8') as f:
-                f.write(f'dicdir = ./mecab/dic/mecab-ko-dic')
+            # 환경 변수에 MeCab 경로 추가
+            os.environ['PATH'] = 'C:/mecab/bin' + os.pathsep + os.environ.get('PATH', '')
             
-            # 환경변수 설정
-            os.environ['MECABRC'] = './mecab/dic/mecabrc'
-            
-            # Mecab 초기화
-            self.mecab = Mecab(dicpath=mecab_dic_dir)
-            
-            # TF-IDF 벡터라이저 초기화
-            self.tfidf = TfidfVectorizer(max_features=1000)
-        
+            self.mecab = Mecab()
         except Exception as e:
-            print(f"Mecab 초기화 오류: {str(e)}")
+            print(f"Mecab 초기화 오류: {e}")
             print(f"현재 작업 디렉토리: {os.getcwd()}")
             raise
 
