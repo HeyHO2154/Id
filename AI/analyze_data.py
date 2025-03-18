@@ -56,7 +56,6 @@ class KeywordAnalyzer:
             used_indices.add(i)
             group_similarities = []
             
-            # 단순히 하나의 키워드를 기준으로 유사한 것들 그룹화
             for j in range(len(keywords)):
                 if j not in used_indices:
                     similarity = similarities[i][j]
@@ -69,15 +68,16 @@ class KeywordAnalyzer:
                 avg_similarity = sum(group_similarities) / len(group_similarities)
                 total_freq = sum(keyword_frequencies.get(word, 0) for word in group)
                 
-                # 그룹 정보 생성
+                # 가장 빈도수가 높은 키워드를 group_label로 사용
+                group_label = max(group, key=lambda x: keyword_frequencies.get(x, 0))
+                
                 group_info = {
                     'keywords': group,
-                    'avg_similarity': avg_similarity,  # 그룹 내 평균 유사도
-                    'frequencies': {word: keyword_frequencies.get(word, 0) for word in group},  # 각 키워드별 빈도수
-                    'total_frequency': total_freq,  # 그룹 전체 빈도수
-                    'representative_keyword': max(group, key=lambda x: keyword_frequencies.get(x, 0)),  # 최다 빈도 키워드
-                    'group_label': self._generate_group_label(group),  # 의미적 중심 키워드
-                    'score': (avg_similarity * total_freq) / len(group)  # 정규화된 점수
+                    'avg_similarity': avg_similarity,
+                    'frequencies': {word: keyword_frequencies.get(word, 0) for word in group},
+                    'total_frequency': total_freq,
+                    'group_label': group_label,  # 빈도수 최대값을 라벨로 사용
+                    'score': (avg_similarity * total_freq) / len(group)
                 }
                 groups_info.append(group_info)
         
@@ -85,13 +85,6 @@ class KeywordAnalyzer:
         groups_info.sort(key=lambda x: x['score'], reverse=True)
         
         return groups_info
-    
-    def _generate_group_label(self, group):
-        """그룹을 대표하는 레이블 생성 (의미적 중심 키워드)"""
-        embeddings = self.model.encode(group)
-        centroid = embeddings.mean(axis=0)
-        similarities = cosine_similarity([centroid], embeddings)[0]
-        return group[similarities.argmax()]
     
     def save_analysis(self, analysis_result):
         """분석 결과 저장"""
@@ -108,7 +101,6 @@ class KeywordAnalyzer:
                     ('keywords', group['keywords']),                  
                     ('average_similarity', round(group['avg_similarity'], 3)),
                     ('total_frequency', group['total_frequency']),
-                    ('representative_keyword', group['representative_keyword']),
                     ('frequencies', group['frequencies'])
                 ]), ensure_ascii=False)
                 if i < len(groups) - 1:

@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "키워드 클라우드 뷰어",
+  "version": "1.0",
+  "description": "JSON 파일을 업로드하여 키워드 클라우드를 생성합니다",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+} 

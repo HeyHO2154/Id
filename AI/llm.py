@@ -17,20 +17,22 @@ class UserAnalyzer:
 
     def analyze_user_profile(self, keyword_groups):
         """키워드 그룹을 기반으로 사용자 프로필 생성"""
-        prompt = "다음은 사용자의 웹 브라우징 기록에서 추출한 주요 키워드 그룹입니다:\n\n"
+        prompt = "다음은 사용자의 웹 브라우징 기록에서 추출한 주요 키워드들입니다:\n\n"
         
-        # 상위 50개 그룹만 선택
-        top_groups = sorted(keyword_groups, key=lambda x: float(x.get('important_score', 0)), reverse=True)[:50]
+        # 상위 50개 그룹의 라벨만 추출 (중요도 점수 기준)
+        top_labels = []
+        for group in sorted(keyword_groups, key=lambda x: float(x.get('important_score', 0)), reverse=True)[:50]:
+            label = group.get('group_label', '')
+            if label:
+                top_labels.append(f"{label}")
         
-        for group in top_groups:
-            keywords = group.get('keywords', [])
-            if isinstance(keywords, dict):  # frequencies가 dict인 경우 처리
-                keywords = list(keywords.keys())
-            
-            prompt += f"- {group['group_label']}: {', '.join(keywords[:5])} (중요도: {group.get('important_score', 0)})\n"
+        # 프롬프트에 키워드 추가
+        prompt += "- " + "\n- ".join(top_labels)
         
-        prompt += "\n이 데이터를 바탕으로 사용자의 특성을 3-4문장으로 분석해주세요. 주요 관심사와 활동 패턴을 중심으로 설명해주세요."
+        prompt += "\n\n이 키워드들을 바탕으로 사용자의 니즈를 분석해주세요"
         
+        #디버깅용 프롬포팅 확인
+        print(prompt)
         return self._generate_analysis(prompt)
 
     def _generate_analysis(self, prompt):
