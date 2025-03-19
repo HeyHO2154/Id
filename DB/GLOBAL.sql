@@ -1,0 +1,4 @@
+DROP DATABASE hsj;
+CREATE DATABASE hsj;
+
+USE hsj;

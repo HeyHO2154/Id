@@ -1,0 +1,15 @@
+USE hsj;
+
+DROP TABLE IF EXISTS Daily;
+
+CREATE TABLE Daily (
+    id VARCHAR(100) PRIMARY KEY,
+    user_id VARCHAR(100) NOT NULL,
+    title VARCHAR(100),
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+SELECT COUNT(*) AS total_count FROM Daily;
+select * from Daily;
