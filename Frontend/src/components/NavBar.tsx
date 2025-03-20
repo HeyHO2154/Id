@@ -50,7 +50,7 @@ const NavBar: React.FC = () => {
       </NavButton>
       <NavButton to="/feed" $isActive={activeButton === "/feed"} onClick={() => setActiveButton("/feed")}>
         <FontAwesomeIcon icon={faLock} size="2x" />
-        비밀 일기
+        일기장
       </NavButton>
       <NavButton to="/my-page" $isActive={activeButton === "/my-page"} onClick={() => setActiveButton("/my-page")}>
         <FontAwesomeIcon icon={faUser} size="2x" />
