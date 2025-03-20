@@ -37,6 +37,7 @@
       flex: 1;
       display: none;
       padding: 20px;
+      overflow-y: auto;
     }
     .content-container.active {
       display: block;
@@ -100,6 +101,7 @@
       flex: 1;
       display: none;
       height: 100%;
+      overflow: hidden;
     }
     #iframe-container.active {
       display: block;
@@ -113,8 +115,8 @@
 </head>
 <body>
   <div class="nav-container">
-    <button id="pravenBtn">Praven</button>
-    <button id="analyzeBtn">분석</button>
+    <button id="pravenBtn">홈페이지</button>
+    <button id="analyzeBtn">인터넷 분석</button>
   </div>
   
   <div id="analyze-container" class="content-container">

@@ -107,6 +107,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px;
+  overflow: hidden;
 `;
 
 const ChatContainer = styled.div`
@@ -116,6 +117,24 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 `;
 
 const MessageBubble = styled.div<{ isUser: boolean }>`
@@ -157,6 +176,9 @@ const InputForm = styled.form`
   display: flex;
   gap: 10px;
   padding: 20px 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.03);
+  background-color: #fff;
 `;
 
 const Input = styled.input`

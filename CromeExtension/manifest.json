@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "방문 기록 분석기",
+  "name": "이드",
   "version": "1.0",
-  "description": "방문 기록을 분석하여 사용자의 관심사를 파악합니다",
+  "description": "가족보다 날 더 잘 아는 비밀친구",
   "minimum_chrome_version": "114",
   "permissions": [
     "history",
@@ -14,7 +14,7 @@
     "http://localhost:3000/*"
   ],
   "action": {
-    "default_title": "방문 기록 분석 시작"
+    "default_title": "이드"
   },
   "side_panel": {
     "default_path": "panel.html"
