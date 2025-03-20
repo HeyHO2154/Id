@@ -68,22 +68,25 @@ document.getElementById('analyze').addEventListener('click', async () => {
     }
 
     const analysis = await response.json();
+    console.log('서버 응답:', analysis);  // 응답 구조 확인
     
     if (analysis.error) {
       throw new Error(analysis.error);
     }
     
+    // 직접 keyword_groups 접근
+    const keywordGroups = analysis.keyword_groups;
+    
     // 분석 결과 표시
     resultDiv.innerHTML = `
-      <h3>분석 결과</h3>
+      <h3>키워드 분석 결과</h3>
       <div class="analysis-content">
-        <h4>🧐 사용자 프로필 분석:</h4>
-        <p>${analysis.user_profile || '프로필 분석을 불러올 수 없습니다.'}</p>
+        <p>총 ${keywordGroups.length}개의 키워드 그룹이 발견되었습니다.</p>
       </div>
     `;
 
     // 키워드 클라우드 표시
-    displayKeywords(analysis.keyword_groups);
+    displayKeywords(keywordGroups);
 
   } catch (error) {
     resultDiv.innerHTML = `<p class="error">오류가 발생했습니다: ${error.message}</p>`;
@@ -98,19 +101,17 @@ function displayKeywords(groups) {
   const container = document.getElementById('cloudContainer');
   container.innerHTML = '';
 
-  // 모든 키워드와 빈도수를 하나의 배열로 모으기
-  let allKeywords = [];
-  groups.forEach(group => {
-    Object.entries(group.frequencies).forEach(([word, freq]) => {
-      allKeywords.push({ word, frequency: freq });
-    });
-  });
+  // group_label과 score만 추출
+  let labelWords = groups.map(group => ({
+    word: group.group_label,
+    score: group.score
+  }));
 
-  // 빈도수로 정렬 (내림차순)
-  allKeywords.sort((a, b) => b.frequency - a.frequency);
+  // score로 정렬 (내림차순)
+  labelWords.sort((a, b) => b.score - a.score);
 
-  // 최대 빈도수 찾기
-  const maxFreq = Math.max(...allKeywords.map(k => k.frequency));
+  // 최대 score 찾기
+  const maxScore = Math.max(...labelWords.map(k => k.score));
   
   // 중심점 설정
   const centerX = container.clientWidth / 2;
@@ -119,14 +120,14 @@ function displayKeywords(groups) {
   // 배치된 키워드들의 영역을 추적
   let placedAreas = [];
   
-  // 각 키워드 배치
-  allKeywords.forEach(({ word, frequency }) => {
+  // 각 라벨 배치
+  labelWords.forEach(({ word, score }) => {
     const keyword = document.createElement('span');
     keyword.className = 'keyword';
     keyword.textContent = word;
 
-    // 빈도수에 따른 폰트 크기 계산 (12px ~ 48px)
-    const fontSize = 12 + (36 * (frequency / maxFreq));
+    // score에 따른 폰트 크기 계산 (12px ~ 48px)
+    const fontSize = 12 + (36 * (score / maxScore));
     keyword.style.fontSize = `${fontSize}px`;
     keyword.style.position = 'absolute';
     
@@ -167,7 +168,8 @@ function displayKeywords(groups) {
       radius += 5;
     }
     
-    keyword.title = `빈도수: ${frequency}`;
+    // 호버 시 점수 표시
+    keyword.title = `중요도: ${score.toFixed(2)}`;
   });
 }
 
