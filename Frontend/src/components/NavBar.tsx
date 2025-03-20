@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faPlus, faComments, faUser, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faComments, faPenToSquare, faBook, faLightbulb, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const NavBarContainer = styled.nav`
   position: sticky;
@@ -37,19 +37,19 @@ const NavBar: React.FC = () => {
   return (
     <NavBarContainer>
       <NavButton to="/" $isActive={activeButton === "/"} onClick={() => setActiveButton("/")}>
-        <FontAwesomeIcon icon={faHeart} size="2x" />
+        <FontAwesomeIcon icon={faComments} size="2x" />
         이드 대화
       </NavButton>
       <NavButton to="/search" $isActive={activeButton === "/search"} onClick={() => setActiveButton("/search")}>
-        <FontAwesomeIcon icon={faSearch} size="2x" />
+        <FontAwesomeIcon icon={faPenToSquare} size="2x" />
         일정 관리
       </NavButton>
       <NavButton to="/add-bong" $isActive={activeButton === "/add-bong"} onClick={() => setActiveButton("/add-bong")}>
-        <FontAwesomeIcon icon={faPlus} size="2x" />
+        <FontAwesomeIcon icon={faBook} size="2x" />
         아카이브
       </NavButton>
       <NavButton to="/feed" $isActive={activeButton === "/feed"} onClick={() => setActiveButton("/feed")}>
-        <FontAwesomeIcon icon={faComments} size="2x" />
+        <FontAwesomeIcon icon={faLightbulb} size="2x" />
         이드 정보
       </NavButton>
       <NavButton to="/my-page" $isActive={activeButton === "/my-page"} onClick={() => setActiveButton("/my-page")}>

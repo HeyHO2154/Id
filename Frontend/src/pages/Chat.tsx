@@ -106,7 +106,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 0px;
 `;
 
 const ChatContainer = styled.div`
@@ -119,8 +119,8 @@ const ChatContainer = styled.div`
 `;
 
 const MessageBubble = styled.div<{ isUser: boolean }>`
-  max-width: 50%;
-  padding: 10px 20px;
+  max-width: 60%;
+  padding: 10px 15px;
   border-radius: 15px;
   background-color: ${props => props.isUser ? '#007AFF' : '#E9ECEF'};
   color: ${props => props.isUser ? 'white' : 'black'};
@@ -130,7 +130,7 @@ const MessageBubble = styled.div<{ isUser: boolean }>`
 
 const bounce = keyframes`
   0%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-5px); }
+  40% { transform: translateY(-3px); }
 `;
 
 const Dot = styled.div`
@@ -156,14 +156,14 @@ const TypingIndicator = styled.div`
 const InputForm = styled.form`
   display: flex;
   gap: 10px;
-  padding: 20px 0;
+  padding: 20px 10px;
 `;
 
 const Input = styled.input`
   flex: 1;
   padding: 10px;
   border: 1px solid #DDD;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 16px;
 
   &:disabled {
@@ -174,7 +174,7 @@ const Input = styled.input`
 const SendButton = styled.button`
   padding: 10px 20px;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   background-color: #007AFF;
   color: white;
   cursor: pointer;
