@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faPenToSquare, faBook, faLightbulb, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faComments, faPenToSquare, faBook, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const NavBarContainer = styled.nav`
   position: sticky;
@@ -49,8 +49,8 @@ const NavBar: React.FC = () => {
         아카이브
       </NavButton>
       <NavButton to="/feed" $isActive={activeButton === "/feed"} onClick={() => setActiveButton("/feed")}>
-        <FontAwesomeIcon icon={faLightbulb} size="2x" />
-        이드 정보
+        <FontAwesomeIcon icon={faLock} size="2x" />
+        비밀 일기
       </NavButton>
       <NavButton to="/my-page" $isActive={activeButton === "/my-page"} onClick={() => setActiveButton("/my-page")}>
         <FontAwesomeIcon icon={faUser} size="2x" />

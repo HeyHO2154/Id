@@ -29,17 +29,15 @@ pravenBtn.addEventListener('click', () => {
   analyzeContainer.classList.remove('active');
 });
 
-analyzeBtn.addEventListener('click', () => {
+analyzeBtn.addEventListener('click', async () => {
   analyzeBtn.classList.add('active');
   pravenBtn.classList.remove('active');
   analyzeContainer.classList.add('active');
   iframeContainer.classList.remove('active');
-});
 
-// 기존 분석 기능
-document.getElementById('startAnalyze').addEventListener('click', async () => {
-  const resultDiv = document.getElementById('result');
-  resultDiv.innerHTML = '<p class="loading">방문 기록 수집 중...</p>';
+  // 분석 시작
+  const container = document.getElementById('cloudContainer');
+  container.innerHTML = '<p class="loading">분석 중...</p>';
 
   try {
     // 최근 방문 기록 가져오기 (7일)
@@ -72,11 +70,6 @@ document.getElementById('startAnalyze').addEventListener('click', async () => {
         };
       }));
 
-    // 방문 기록 JSON 저장
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '').slice(0, 15);
-    const historyJson = JSON.stringify(processedHistory, null, 2);
-    await saveToFile(`history_data_${timestamp}.json`, historyJson);
-
     // 서버로 전송
     const response = await fetch('http://localhost:3000/analyze', {
       method: 'POST',
@@ -93,25 +86,16 @@ document.getElementById('startAnalyze').addEventListener('click', async () => {
     }
 
     const analysis = await response.json();
-    console.log('서버 응답:', analysis);  // 응답 구조 확인
     
     if (analysis.error) {
       throw new Error(analysis.error);
     }
     
-    // 직접 keyword_groups 접근
-    const keywordGroups = analysis.keyword_groups;
-    
-    // 분석 결과 표시
-    resultDiv.innerHTML = `
-      <p>총 ${keywordGroups.length}개의 키워드 그룹이 발견되었습니다.</p>
-    `;
-
     // 키워드 클라우드 표시
-    displayKeywords(keywordGroups);
+    displayKeywords(analysis.keyword_groups);
 
   } catch (error) {
-    resultDiv.innerHTML = `<p class="error">오류가 발생했습니다: ${error.message}</p>`;
+    container.innerHTML = `<p class="error">오류가 발생했습니다: ${error.message}</p>`;
   }
 });
 
@@ -122,8 +106,11 @@ function calculateContextSimilarity(word1, word2, titles) {
 function displayKeywords(groups) {
   const container = document.getElementById('cloudContainer');
   container.innerHTML = '';
-  container.style.position = 'relative';
-  container.style.height = '800px';
+
+  // 내부 컨테이너 추가
+  const innerContainer = document.createElement('div');
+  innerContainer.className = 'cloud-inner';
+  container.appendChild(innerContainer);
 
   // group_label과 score만 추출 후 상위 100개만 선택
   let labelWords = groups
@@ -132,19 +119,19 @@ function displayKeywords(groups) {
       score: group.score
     }))
     .sort((a, b) => b.score - a.score)
-    .slice(0, 100);  // top 100만 선택
+    .slice(0, 100);
 
   // 최대 score 찾기
   const maxScore = Math.max(...labelWords.map(k => k.score));
   
-  // 중심점 설정
-  const centerX = container.clientWidth / 2;
-  const centerY = container.clientHeight / 2;
+  // 중심점 설정 (내부 컨테이너 기준)
+  const centerX = 450;  // 800/2 (컨테이너 width의 절반)
+  const centerY = 450;  // 800/2 (컨테이너 height의 절반)
   
   // 배치된 키워드들의 영역을 추적
   let placedAreas = [];
   
-  // 각 라벨 배치
+  // 각 라벨 배치 (내부 컨테이너에 추가)
   labelWords.forEach(({ word, score }, index) => {
     const keyword = document.createElement('span');
     keyword.className = 'keyword';
@@ -162,7 +149,7 @@ function displayKeywords(groups) {
     
     // 임시로 DOM에 추가하여 크기 측정
     keyword.style.visibility = 'hidden';
-    container.appendChild(keyword);
+    innerContainer.appendChild(keyword);
     const width = keyword.offsetWidth;
     const height = keyword.offsetHeight;
     

@@ -36,7 +36,7 @@
     .content-container {
       flex: 1;
       display: none;
-      padding: 20px;
+      padding: 0;
       overflow-y: auto;
     }
     .content-container.active {
@@ -72,9 +72,34 @@
     }
     #cloudContainer {
       width: 100%;
+      min-width: 400px;
       background-color: #ffffff;
-      border-radius: 8px;
-      margin-top: 20px;
+      border-radius: 0;
+      margin-top: 0;
+      overflow-x: auto;
+      position: relative;
+      padding: 0;
+    }
+    #cloudContainer::-webkit-scrollbar {
+      height: 8px;
+      background-color: transparent;
+    }
+    #cloudContainer::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 0;
+    }
+    #cloudContainer::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 0;
+    }
+    #cloudContainer::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    .cloud-inner {
+      width: 900px;
+      height: 900px;
+      position: relative;
+      margin: 0;
     }
     .keyword {
       padding: 8px 12px;
@@ -136,9 +161,6 @@
   </div>
   
   <div id="analyze-container" class="content-container">
-    <h2>방문 기록 분석</h2>
-    <button id="startAnalyze">분석 시작</button>
-    <div id="result"></div>
     <div id="cloudContainer"></div>
   </div>
   

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart, Bell } from "lucide-react";
+import { Zap, Bell } from "lucide-react";
 
 const TopBar: React.FC = () => {
   const navigate = useNavigate();
@@ -12,16 +12,12 @@ const TopBar: React.FC = () => {
 
   return (
     <BarWrapper>
-      {/* 🏪 오른쪽 상점 아이콘 */}
       <IconWrapper onClick={toShop}>
-      {/* 원래는 28 */}
-        <ShoppingCart size={30} />     
+        <Zap size={30} />     
       </IconWrapper>
 
-      {/* 🏠 중앙 로고 */}
       <Logo src="/assets/BongTMI2.png" alt="이드" onClick={toHome} />
 
-      {/* 🔔 왼쪽 알람 아이콘 */}
       <IconWrapper onClick={toNotifications}>
         <Bell size={30} />
       </IconWrapper>
