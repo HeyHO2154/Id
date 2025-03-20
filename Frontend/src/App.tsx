@@ -28,6 +28,8 @@ import Shop from "./pages/Bong/Shop";
 // import AdBanner from "./components/AdBanner";
 // import Footer from "./components/Footer";
 
+import Chat from "./pages/Chat";
+
 const App: React.FC = () => {
   const [isTouching, setIsTouching] = useState(false);
   isTouching;
@@ -70,7 +72,7 @@ const App: React.FC = () => {
         <div className="app-container">
           <TopBar />
           <Routes>
-            <Route path="/" element={<Swipe />} />
+            <Route path="/" element={<Chat />} />
             <Route path="/search" element={<Search />} />
             <Route path="/add-bong" element={<AddBong />} />
 
