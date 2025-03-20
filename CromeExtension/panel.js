@@ -122,15 +122,17 @@ function calculateContextSimilarity(word1, word2, titles) {
 function displayKeywords(groups) {
   const container = document.getElementById('cloudContainer');
   container.innerHTML = '';
+  container.style.position = 'relative';
+  container.style.height = '800px';
 
-  // group_label과 score만 추출
-  let labelWords = groups.map(group => ({
-    word: group.group_label,
-    score: group.score
-  }));
-
-  // score로 정렬 (내림차순)
-  labelWords.sort((a, b) => b.score - a.score);
+  // group_label과 score만 추출 후 상위 100개만 선택
+  let labelWords = groups
+    .map(group => ({
+      word: group.group_label,
+      score: group.score
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 100);  // top 100만 선택
 
   // 최대 score 찾기
   const maxScore = Math.max(...labelWords.map(k => k.score));
@@ -143,13 +145,18 @@ function displayKeywords(groups) {
   let placedAreas = [];
   
   // 각 라벨 배치
-  labelWords.forEach(({ word, score }) => {
+  labelWords.forEach(({ word, score }, index) => {
     const keyword = document.createElement('span');
     keyword.className = 'keyword';
+    if (index < 3) {  // Top 1
+      keyword.classList.add('top-one');
+    } else if (index < 15) {  // Top 2
+      keyword.classList.add('top-two');
+    }
     keyword.textContent = word;
 
-    // score에 따른 폰트 크기 계산 (12px ~ 48px)
-    const fontSize = 12 + (36 * (score / maxScore));
+    // score에 따른 폰트 크기 계산 (12px ~ 36px)
+    const fontSize = 12 + (24 * (score / maxScore));
     keyword.style.fontSize = `${fontSize}px`;
     keyword.style.position = 'absolute';
     
@@ -162,10 +169,10 @@ function displayKeywords(groups) {
     // 적절한 위치 찾기
     let placed = false;
     let radius = 0;
-    let angle = 0;
+    let angle = Math.random() * 2 * Math.PI; // 랜덤한 시작 각도
+    let spiralGrowth = 5; // 나선형 성장 속도
     
-    while (!placed && radius < Math.max(container.clientWidth, container.clientHeight)) {
-      angle = (radius / 50) * 2 * Math.PI;
+    while (!placed) {
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
       
@@ -176,8 +183,7 @@ function displayKeywords(groups) {
         bottom: y + height/2
       };
       
-      if (!placedAreas.some(area => intersects(currentArea, area)) &&
-          isWithinContainer(currentArea, container)) {
+      if (!placedAreas.some(area => intersects(currentArea, area))) {
         keyword.style.visibility = 'visible';
         keyword.style.left = `${x}px`;
         keyword.style.top = `${y}px`;
@@ -187,7 +193,8 @@ function displayKeywords(groups) {
         placed = true;
       }
       
-      radius += 5;
+      radius += spiralGrowth;
+      angle += 0.5; // 나선형 회전 각도
     }
     
     // 호버 시 점수 표시
