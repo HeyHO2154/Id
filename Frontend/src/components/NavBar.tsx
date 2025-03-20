@@ -38,23 +38,23 @@ const NavBar: React.FC = () => {
     <NavBarContainer>
       <NavButton to="/" $isActive={activeButton === "/"} onClick={() => setActiveButton("/")}>
         <FontAwesomeIcon icon={faHeart} size="2x" />
-        봉사 추천
+        이드 대화
       </NavButton>
       <NavButton to="/search" $isActive={activeButton === "/search"} onClick={() => setActiveButton("/search")}>
         <FontAwesomeIcon icon={faSearch} size="2x" />
-        봉사 검색
+        일정 관리
       </NavButton>
       <NavButton to="/add-bong" $isActive={activeButton === "/add-bong"} onClick={() => setActiveButton("/add-bong")}>
         <FontAwesomeIcon icon={faPlus} size="2x" />
-        봉사 등록
+        아카이브
       </NavButton>
       <NavButton to="/feed" $isActive={activeButton === "/feed"} onClick={() => setActiveButton("/feed")}>
         <FontAwesomeIcon icon={faComments} size="2x" />
-        봉사 소식
+        이드 정보
       </NavButton>
       <NavButton to="/my-page" $isActive={activeButton === "/my-page"} onClick={() => setActiveButton("/my-page")}>
         <FontAwesomeIcon icon={faUser} size="2x" />
-        마이페이지
+        내 정보
       </NavButton>
     </NavBarContainer>
   );

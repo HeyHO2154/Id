@@ -12,7 +12,32 @@ async function saveToFile(filename, content) {
   URL.revokeObjectURL(url);
 }
 
-document.getElementById('analyze').addEventListener('click', async () => {
+// 탭 전환 관리
+const pravenBtn = document.getElementById('pravenBtn');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const analyzeContainer = document.getElementById('analyze-container');
+const iframeContainer = document.getElementById('iframe-container');
+
+// 초기 상태 설정 (Praven 탭 활성화)
+pravenBtn.classList.add('active');
+iframeContainer.classList.add('active');
+
+pravenBtn.addEventListener('click', () => {
+  pravenBtn.classList.add('active');
+  analyzeBtn.classList.remove('active');
+  iframeContainer.classList.add('active');
+  analyzeContainer.classList.remove('active');
+});
+
+analyzeBtn.addEventListener('click', () => {
+  analyzeBtn.classList.add('active');
+  pravenBtn.classList.remove('active');
+  analyzeContainer.classList.add('active');
+  iframeContainer.classList.remove('active');
+});
+
+// 기존 분석 기능
+document.getElementById('startAnalyze').addEventListener('click', async () => {
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = '<p class="loading">방문 기록 수집 중...</p>';
 
@@ -79,10 +104,7 @@ document.getElementById('analyze').addEventListener('click', async () => {
     
     // 분석 결과 표시
     resultDiv.innerHTML = `
-      <h3>키워드 분석 결과</h3>
-      <div class="analysis-content">
-        <p>총 ${keywordGroups.length}개의 키워드 그룹이 발견되었습니다.</p>
-      </div>
+      <p>총 ${keywordGroups.length}개의 키워드 그룹이 발견되었습니다.</p>
     `;
 
     // 키워드 클라우드 표시

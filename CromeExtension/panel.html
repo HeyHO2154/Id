@@ -5,8 +5,41 @@
   <style>
     body {
       width: 100%;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .nav-container {
+      padding: 10px 20px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    button.active {
+      background-color: #357a38;
+    }
+    .content-container {
+      flex: 1;
+      display: none;
+      padding: 20px;
+    }
+    .content-container.active {
+      display: block;
     }
     #result {
       margin-top: 20px;
@@ -32,16 +65,9 @@
       color: #666;
       font-style: italic;
     }
-    button {
-      padding: 8px 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
+    .button-container {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
     }
     #cloudContainer {
       position: relative;
@@ -70,13 +96,38 @@
       order: 0;
       background-color: #e8f0fe;
     }
+    #iframe-container {
+      flex: 1;
+      display: none;
+      height: 100%;
+    }
+    #iframe-container.active {
+      display: block;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
-  <h2>방문 기록 분석</h2>
-  <button id="analyze">분석 시작</button>
-  <div id="result"></div>
-  <div id="cloudContainer"></div>
+  <div class="nav-container">
+    <button id="pravenBtn">Praven</button>
+    <button id="analyzeBtn">분석</button>
+  </div>
+  
+  <div id="analyze-container" class="content-container">
+    <h2>방문 기록 분석</h2>
+    <button id="startAnalyze">분석 시작</button>
+    <div id="result"></div>
+    <div id="cloudContainer"></div>
+  </div>
+  
+  <div id="iframe-container">
+    <iframe src="http://localhost:5173" allow="*"></iframe>
+  </div>
+
   <script src="panel.js"></script>
 </body>
 </html> 
