@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from llm.schedule import ScheduleLLM
-from llm.memo import MemoLLM
-from llm.diary import DiaryLLM
-from llm.chat import ChatLLM
+from llm.prompt.schedule import ScheduleLLM
+from llm.prompt.memo import MemoLLM
+from llm.prompt.diary import DiaryLLM
+from llm.prompt.chat import ChatLLM
 from utils.message_classifier import MessageClassifier
 import uvicorn
 from datetime import datetime

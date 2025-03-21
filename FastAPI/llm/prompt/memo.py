@@ -1,4 +1,4 @@
-from .base_llm import BaseLLM
+from llm.base_llm import BaseLLM
 
 class MemoLLM(BaseLLM):
     def generate_response(self, user_message: str) -> str:

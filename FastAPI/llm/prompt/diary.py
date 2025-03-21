@@ -1,4 +1,4 @@
-from .base_llm import BaseLLM
+from llm.base_llm import BaseLLM
 from datetime import datetime
 
 class DiaryLLM(BaseLLM):

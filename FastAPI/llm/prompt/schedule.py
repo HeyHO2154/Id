@@ -1,5 +1,5 @@
 from datetime import datetime
-from .base_llm import BaseLLM
+from llm.base_llm import BaseLLM
 
 class ScheduleLLM(BaseLLM):
     def generate_response(self, user_message: str) -> str:
