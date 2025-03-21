@@ -31,6 +31,8 @@ def chat_with_model(model, tokenizer):
             
         #messages = [{"role": "user", "content": user_input}]
 
+        # "2023년 5월 8일" 이 날짜를 timestamp 형식으로 작성해줘
+
         messages = [{"role": "user", "content": f"""
                         오늘 날짜는 {datetime.now().strftime('%Y-%m-%d')} 입니다.
                         다음 문장에서 일정 시간과 일정 내용을 추출해서 아래 형식으로 정확히 작성해주세요:
