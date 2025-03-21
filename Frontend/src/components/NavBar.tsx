@@ -54,7 +54,7 @@ const NavBar: React.FC = () => {
       </NavButton>
       <NavButton to="/my-page" $isActive={activeButton === "/my-page"} onClick={() => setActiveButton("/my-page")}>
         <FontAwesomeIcon icon={faUser} size="2x" />
-        내 정보
+        이드 정보
       </NavButton>
     </NavBarContainer>
   );
