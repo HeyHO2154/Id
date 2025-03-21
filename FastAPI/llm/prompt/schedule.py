@@ -58,5 +58,4 @@ class ScheduleLLM(BaseLLM):
             "\n".join(example_texts)
         )
         
-        print(system_prompt)
         return super().generate_response(user_message, system_prompt) 
