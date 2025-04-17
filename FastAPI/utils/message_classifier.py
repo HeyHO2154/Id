@@ -51,7 +51,7 @@ class MessageClassifier:
         
         # 가장 높은 유사도를 가진 타입 선택
         max_type = max(similarities.items(), key=lambda x: x[1])
-        result = max_type[0] if max_type[1] > 0.5 else 'chat'
+        result = max_type[0] if max_type[1] > 0.2 else 'chat'
         
         # 처리 시간 계산
         elapsed_time = (time.time() - start_time) * 1000  # 밀리초 단위

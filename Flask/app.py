@@ -23,9 +23,16 @@ def analyze_history():
         analyzer = KeywordAnalyzer()
         analysis_result = analyzer.analyze_keywords(processed_data)
         
-        # 3단계: 결과 반환
+        # 3단계: 제외할 키워드 필터링
+        exclude_keywords = ["검색", "Google", "YouTube"]
+        filtered_groups = [
+            group for group in analysis_result['keyword_groups']
+            if group['group_label'] not in exclude_keywords
+        ]
+        
+        # 4단계: 필터링된 결과 반환
         return jsonify({
-            'keyword_groups': analysis_result['keyword_groups']
+            'keyword_groups': filtered_groups
         })
 
     except Exception as e:
